@@ -1,4 +1,5 @@
 import subprocess
+from security import safe_command
 
 def execute(cmd, encoding='UTF-8', timeout=None, shell=False):
     """Execute a shell command/binary.
@@ -11,7 +12,7 @@ def execute(cmd, encoding='UTF-8', timeout=None, shell=False):
     result: a tuple coontaining stdout, the returncode and stderr
     """
 
-    proc = subprocess.Popen(cmd, stdin=subprocess.DEVNULL,
+    proc = safe_command.run(subprocess.Popen, cmd, stdin=subprocess.DEVNULL,
     stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=shell)
     output, error = proc.communicate(timeout=timeout)
     # rstrip('\n') may be more accurate, actually nothing may be better
